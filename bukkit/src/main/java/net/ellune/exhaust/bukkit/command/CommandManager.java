@@ -186,16 +186,17 @@ public class CommandManager extends AbstractCommandManager {
 
                 e.printStackTrace();
                 sender.sendMessage(ChatColor.RED + "An unexpected error occurred.");
+            } catch (InvalidUsageException e) {
+                String message = e.getMessage();
+                sender.sendMessage(ChatColor.RED + (message != null ? message : "The command was not used properly (no more help available)"));
+                sender.sendMessage(ChatColor.RED + "Usage: /" + Joiner.on(" ").join(e.getAliasStack()));
+                return true;
             } catch (CommandException e) {
-                if (e instanceof InvalidUsageException) {
-                    InvalidUsageException ue = (InvalidUsageException) e;
-                    String message = ue.getMessage();
-                    sender.sendMessage(ChatColor.RED + (message != null ? message : "The command was not used properly (no more help available)"));
-                    sender.sendMessage(ChatColor.RED + "Usage: /" + Joiner.on(" ").join(ue.getAliasStack()));
-                    return true;
+                String message = e.getMessage();
+                if (message == null) {
+                    message = "An unexpected error occurred.";
                 }
-
-                sender.sendMessage(ChatColor.RED + "An unexpected error occurred.");
+                sender.sendMessage(ChatColor.RED + message);
             }
 
             return true;
