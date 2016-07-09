@@ -1,4 +1,4 @@
 name: kExhaust
-main: net.ellune.exhaust.bukkit.Exhaust
+main: ninja.miserable.exhaust.bukkit.Exhaust
 version: '@project.version@'
 author: Kashike
