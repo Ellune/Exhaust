@@ -19,7 +19,7 @@ allprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
 
-    group = 'net.ellune'
+    group = 'ninja.miserable'
     version = '2.0.0-SNAPSHOT'
 
     sourceCompatibility = 1.8
@@ -49,9 +49,9 @@ allprojects {
             repositories {
                 maven {
                     if (project.version.endsWith('-SNAPSHOT')) {
-                        url 'http://repo.ellune.net/content/repositories/snapshots/'
+                        url 'http://repo.miserable.ninja/content/repositories/snapshots/'
                     } else {
-                        url 'http://repo.ellune.net/content/repositories/releases/'
+                        url 'http://repo.miserable.ninja/content/repositories/releases/'
                     }
                     credentials {
                         username project.getProperty("maven.authUser")
@@ -76,8 +76,8 @@ subprojects {
         mavenCentral()
 
         maven {
-            name 'ellune-repo'
-            url 'http://repo.ellune.net/content/groups/public/'
+            name 'miserableninja-repo'
+            url 'http://repo.miserable.ninja/content/groups/public/'
         }
 
         maven {

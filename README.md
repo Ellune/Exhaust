@@ -11,8 +11,8 @@ Exhaust is available in the following Maven repository:
 ```xml
 <repositories>
   <repository>
-    <id>ellune-repo</id>
-    <url>http://repo.ellune.net/content/groups/public/</url>
+    <id>miserableninja-repo</id>
+    <url>http://repo.miserable.ninja/content/groups/public/</url>
   </repository>
 </repositories>
 ```
