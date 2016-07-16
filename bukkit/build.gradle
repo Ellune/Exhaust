@@ -1,5 +1,3 @@
-archivesBaseName = 'exhaust-bukkit'
-
 repositories {
     maven {
         name 'spigotmc-repo'

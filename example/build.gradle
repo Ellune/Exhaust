@@ -1,5 +1,3 @@
-archivesBaseName = 'exhaust-example'
-
 repositories {
     maven {
         name 'spigotmc-repo'

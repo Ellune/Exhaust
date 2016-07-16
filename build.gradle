@@ -1,7 +1,5 @@
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
         jcenter()
     }
 
@@ -13,11 +11,14 @@ buildscript {
 import org.apache.tools.ant.filters.ReplaceTokens
 
 allprojects {
+    defaultTasks 'build'
+}
+
+subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'eclipse'
     apply plugin: 'maven'
-    apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
 
     group = 'ninja.miserable'
@@ -25,8 +26,6 @@ allprojects {
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-
-    defaultTasks 'build', 'publishToMavenLocal'
 
     jar {
         classifier = 'original'
@@ -36,51 +35,37 @@ allprojects {
         classifier = ''
     }
 
-    build.dependsOn(shadowJar)
+    artifacts {
+        archives shadowJar
+    }
 
     processResources {
         filter ReplaceTokens, tokens: [
-            "project.version": project.version
+            'project.version': project.version
         ]
     }
 
-
-    publishing {
-        if(project.hasProperty("maven.authUser")) {
-            repositories {
-                maven {
-                    if (project.version.endsWith('-SNAPSHOT')) {
-                        url 'http://repo.miserable.ninja/content/repositories/snapshots/'
-                    } else {
-                        url 'http://repo.miserable.ninja/content/repositories/releases/'
-                    }
-                    credentials {
-                        username project.getProperty("maven.authUser")
-                        password project.getProperty("maven.authPass")
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                if (project.hasProperty('exhaustMavenUser') && project.hasProperty('exhaustMavenPass')) {
+                    repository(url: project.version.endsWith('-SNAPSHOT') ? 'http://repo.miserable.ninja/content/repositories/snapshots/' : 'http://repo.miserable.ninja/content/repositories/releases/') {
+                        if (project.hasProperty('exhaustMavenUser') && project.hasProperty('exhaustMavenPass')) {
+                            authentication(userName: project.exhaustMavenUser, password: project.exhaustMavenPass)
+                        }
                     }
                 }
             }
         }
-
-        publications {
-            shadow(MavenPublication) {
-                from components.java
-                artifact shadowJar
-            }
-        }
     }
-}
 
-subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-
         maven {
             name 'miserableninja-repo'
             url 'http://repo.miserable.ninja/content/groups/public/'
         }
-
         maven {
             name 'sk89q-repo'
             url 'http://maven.sk89q.com/repo/'

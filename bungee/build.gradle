@@ -1,5 +1,3 @@
-archivesBaseName = 'exhaust-bungee'
-
 repositories {
     maven {
         name 'sonatype-oss-repo'
